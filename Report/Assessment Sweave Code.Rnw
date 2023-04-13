@@ -1,0 +1,385 @@
+\documentclass{article}
+
+\title{Data Visualisation Assignment}
+\author{Dharmarlou Bowen,\\student number: 20123076,\\total word count: 1400}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\maketitle
+
+\newpage
+\tableofcontents
+
+\newpage
+\listoffigures
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%- Abstract- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Abstract}
+The Google App Store has over a variety of 3.45 million apps a user is able to 
+choose from with it being Apple's main App store competitor. With such a huge pool 
+to pick from it must be a challenge for an app to standout an become popular. Is
+it due some niche genre in the mobile market as there is great app saturation? 
+or Do popular app share certain features or demographics that make them standout? 
+These are a few of the question used to initial my analysis.\\
+
+Different questions can arise as you may be looking from the perspective of a 
+consumer or an app developer. If your developing an app being able to identify
+why apps fail or why other were successful can effect your whole development 
+process will allow for amendments to the development process. A consumer on the
+other hand would be more concerned about the reviews of an app.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Introduction - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Introduction}
+
+\subsection{Summary}
+This report is based on the Google App Store's Apps. The Play Store apps data 
+has enormous potential to drive app-making businesses to success. Actionable 
+insights can be drawn for developers to work on and capture the Android market.\\
+
+\subsection{Highlight}
+This subsection highlight intriguing observations  that are discovered in the 
+report:
+
+\begin{enumerate}
+
+\item Android Market Share 
+\item Correlations of Ratings 
+\item Pricing Strategy
+
+\end{enumerate}
+
+\subsection{Aim}
+The core aim of this report is acquire insight into the traits and attributes
+of successful apps. We have seen many apps rise and fall over the last few years
+so developing analytical insight into factors such as the category, price, size 
+and rating.
+
+\subsection{Achievements}
+In this report the reader can find insight into the categories of apps that are 
+currently dominating the android mark as well as how their ratings intertwine with
+all their attributes which result in their success.
+
+When it comes to taking into account the size of the app the is a moderate
+factor due to what figure 5 and 6 demonstrates as two of the largest categories 
+mirror the the holistic overview in fig.5 despite the high variation of
+app sizes a majority still perform well from a rating perspective as there
+condensed between the 4 to 5 star region.
+
+\subsection{Organised}
+Structure of this report is:
+\begin{enumerate}
+\item Title
+\item Subtitle (if applicable)
+\item Description
+\item Graph (graphs are on own page)
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%% - Motivation & Objection - %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Motivation and Objectives}
+
+Smartphone make up a significant part of everyday life so it makes sense that 
+the applications we use on them play a even greater role. By developing a better
+comprehension for what makes these apps popular an successful it may provide 
+invaluable insight.
+
+The data used is from Kaggle, which is free and accessible to anyone, the dataset's
+name is 'Google Play Store Apps'. The dataset has 10804 rows and 13 columns. 
+Columns from dataset: 
+
+\begin{enumerate}
+
+\item App
+\item Category
+\item Rating
+\item Reviews
+\item Size
+\item Installs
+\item Type
+\item Price
+\item Content Rating
+\item Genres
+\item Last Updated
+\item Current Ver
+\item Android Ver
+
+\end{enumerate}
+
+
+\subsection{Questions about Dataset}
+This is a section of questions that we are looking to be answered with
+expected results:
+\begin{enumerate}
+\item Q: What categories present the most significance in the mobile market?\\E: Most likely Games, Communication(Social Media) and Finance
+\item Q: Is there any apps that present a high variance in rating? \\E: A majority of app are probable to present a shared trend between a particular rating  
+\item Q: Are there any pricing trends of Apps across varying categories?\\E: Apps are generally free with some services offering some sort of subscription service so this may technically vary. 
+\item Q: How much does an App's size impact rating?\\E:  As people phone have limited storage consumption of more space can be more detrimental to a apps success
+
+\end{enumerate}
+
+
+Q = Question
+E = Expectation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Experimental Results}
+This section is research based. The questions posed in the previous sections
+are presented and developed upon here with each page either displaying a graph 
+or the topical insight from the analysis.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (1) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Categorical Breakdown}
+This first sub-section of Experimental result performs a categorical breakdown of the 
+categories found on the Google app store. An expectation was noted for the first question, 
+that the most predominant categories would be Games, Communication(Social Media) and Finance. 
+
+A histogram was used to depict top 13 most popular categories based on their occurrence in the dataset. 
+'Family' and 'Game' apps proved to be present with the greatest market share, with Tools, Business and 
+Medical apps are also catching up. 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (1.1) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\begin{figure}[h!]
+\caption{Most Popular Categories}
+<<fig=TRUE,echo=FALSE,width=8,height=8>>=
+library(ggplot2)
+library(dplyr)
+
+df = read.csv("googleplaystore(cln).csv")
+
+val = as.data.frame(table(df$Category))
+
+val2 = filter(val, Freq > 300)
+data = val2
+
+ggplot(val2, aes(Freq,Var1, fill=Var1)) + geom_col() + 
+  labs(title = "Most Popular Categories",x="Frequency",y="Categoies",fill="Categories")
+
+@
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (2) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\subsection{Correlation of Ratings}
+This section attempts to answer the section question posed
+"Is there any apps that present a high variance in rating?"
+Two graphs were used to demonstrate the averages. Fig.2 displays a holistic 
+overview of app rating resulting in a average rating of 4.17. In addition to 
+this Fig.3 presents a faceting of Fig.2 provide insight into if there is any
+particular Genre that performs bettor or worse on average. From Fig.3 there 
+is not a great amount of variance as all the facets share the trend of
+most of their ratings ranging between 4 to 5. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (2.1) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\begin{figure}[h!]
+\caption{Average App Rating}
+<<fig=TRUE,echo=FALSE,width=8,height=8>>=
+library(ggplot2)
+library(dplyr)
+
+data = read.csv("googleplaystore(cln).csv")
+
+p = ggplot(data, aes(Rating)) + geom_bar(fill = "#0080ff") 
+p
+@
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (2.2) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\begin{figure}[h!]
+\caption{Average App Rating per Genre}
+<<fig=TRUE,echo=FALSE,width=8,height=8>>=
+library(ggplot2)
+library(dplyr)
+
+data = read.csv("googleplaystore(cln).csv")
+
+# selecting top 12 most popular categories
+dt1 = filter(data,Category %in% c("BUSINESS","COMMUNICATION",
+                                  "FAMILY","FINANCE",
+                                  "GAME","HEALTH_AND_FITNESS",
+                                  "LIFESTYLE","MEDICAL",
+                                  "PERSONALIZATION",
+                                  "PRODUCTIVITY","SPORTS",
+                                  "TOOLS"))
+
+# Faceting Data 
+p = ggplot(dt1, aes(Rating)) + geom_bar(fill = "#0080ff") + facet_wrap(~Category,ncol=3,scales="free_y") 
+p
+@
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (3) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\subsection{Pricing Strategy}
+When considering pricing strategy it would be asserted that apps are generally 
+free given the saturation of the mobile market. A scatter graph (Fig.4) in combination
+with jitter presents 7 of the most popular application categories prices. Despite 
+prices exceeding the 50 pounds the two largest categories (Game and Family) stay below 
+said price. The jitter in the graph was used to provide clarity to the black points
+that are condensed near the 0 point.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (3.1) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\begin{figure}[h!]
+\caption{Free vs Paid}
+<<fig=TRUE,echo=FALSE,width=8,height=8>>=
+library(ggplot2)
+library(dplyr)
+
+data = read.csv("googleplaystore(cln).csv") 
+
+dt1 = filter(data,Category %in% c("BUSINESS","FAMILY","FINANCE",
+                                  "GAME","LIFESTYLE","MEDICAL",
+                                  "TOOLS"))
+
+dt2 = filter(dt1,Price < 101.00)
+
+ggplot(dt2, aes(Price,Category,color=Category)) + 
+  geom_point(size=3,position = position_jitterdodge(dodge.width = 0.9, jitter.width = 0.2)) +
+  geom_point(size=2,color="black")
+@
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (4) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\subsection{Size Strategy}
+The last factor taken into account is app size as storage capacity can act as a 
+potential push factor if a app consumes too much space. Fig.5 provides a holistic 
+overview of all the apps sizes and ratings. (Size is in MB) At 37.5MB with ratings
+of 3.2 and greater are common. Fig.6 Provides an emphasis on Game and Family with
+them being the largest categories. Most bulky apps ( >50MB) belong to the Game and Family category. 
+Despite this, these bulky apps are fairly highly rated indicating that they are bulky for a purpose.
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (4.1) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\begin{figure}[h!]
+\caption{Light vs Bulky}
+<<fig=TRUE,echo=FALSE,width=8,height=8>>=
+library(ggplot2)
+library(dplyr)
+
+data = read.csv("googleplaystore(cln).csv")
+
+pcln = gsub("M","",data$Size) ; x = as.numeric(pcln)
+
+data = data %>% mutate(Size = x)
+
+ggplot(data,aes(Size,Rating)) + geom_point(size=4,color="#0080ff")
+@
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Results (4.2) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\begin{figure}[h!]
+\caption{Top 2 Bulkiest Apps}
+<<fig=TRUE,echo=FALSE,width=8,height=8>>=
+library(ggplot2)
+library(dplyr)
+
+data = read.csv("googleplaystore(cln).csv")
+pcln = gsub("M","",data$Size) ; x = as.numeric(pcln)
+
+data = data %>% mutate(Size = x)
+
+
+dt1 = filter(data,Category %in% c("GAME","FAMILY") & Size < 101)
+
+ggplot(dt1,aes(Rating,Size,color=Category)) + geom_point(size=3)
+@
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - Summary - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Summary}
+This is report has searched for insight into what factors can effect the success
+of an app based on certain shared trends among popular apps taking into account factors
+such as App size, rating, market share and price. As each factor was analysis certain 
+expectations were met, with many of the graphs provide a degree of confirmation for our
+questions providing the conclusion that:
+
+\begin{enumerate}
+
+\item Free apps or apps below the price of 25 pounds greatly dominate the app market with
+the exception of a few outliers. Due to market saturation with free apps the way that 
+these apps make a return is through subscription service or micro transactions once the app
+has been downloaded.
+
+\item When it comes to taking into account the size of the app the is a moderate factor due
+to what figure 5 and 6 demonstrates as two of the largest categories mirror the the holistic 
+overview in fig.5 despite the high variation of app sizes a majority still perform well from 
+a rating perspective as there condensed between the 4 to 5 star region.
+
+\end{enumerate}
+
+
+Findings:
+
+\begin{enumerate}
+
+\item Q: What categories present the most significance in the mobile market?
+\\E: Most likely Games, Communication(Social Media) and Finance
+\\F: 'Family' and 'Game' apps proved to be present
+with the greatest market share, with Tools, Business and Medical apps are also
+catching up.
+
+\item Q: Is there any apps that present a high variance in rating? 
+\\E: A majority of app are probable to present a shared trend between a particular rating  
+\\F: There is not a great amount of variance as all the
+facets share the trend of most of their ratings ranging between 4 to 5.
+
+
+\item Q: Are there any pricing trends of Apps across varying categories?
+\\E: Apps are generally free with some services offering some sort of subscription service so this may technically vary. 
+\\F:  Despite prices exceeding the 50 pounds the two largest categories (Game
+and Family) stay below said price. The jitter in the graph was used to provide
+clarity to the black points that are condensed near the 0 point.
+
+\item Q: How much does an App's size impact rating?
+\\E: As people phone have limited storage consumption of more space can be more detrimental to a apps success
+\\F: Most bulky apps (>50MB) belong to the Game and Family category. Despite this, these bulky
+apps are fairly highly rated indicating that they are bulky for a purpose.
+
+\end{enumerate}
+
+
+Q = Question
+E = Expectation
+F = Findings
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - References - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{References}
+Here are my results. Referring to section \\
+
+Appinventi (2022). Top Google Play Store Statistics 2022 You Must Know. Appinventi Available at:\\
+https://appinventiv.com/blog/google-play-store-statistics/ [Accessed 09 May. 2022].\\
+
+Kaggle (2022). Google Play Store Apps. Kaggle Available at:\\
+https://www.kaggle.com/datasets/lava18/google-play-store-apps?resource=download
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% - End - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
