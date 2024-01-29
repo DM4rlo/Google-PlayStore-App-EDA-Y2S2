@@ -1,4 +1,4 @@
-# Google PlayStore App Exploratory Data Analysis (Uni)
+# Google PlayStore App Exploratory Data Analysis
 The repository's file structure is organized into three main folders:
 
 1. Code for Analysis: This folder contains all the R code that was written to perform the exploratory data analysis. It includes scripts, notebooks, or R Markdown files that were used to clean, preprocess, and analyze the dataset. This folder also houses the cleaned dataset that was used in the analysis, ensuring reproducibility and transparency in the research process.
